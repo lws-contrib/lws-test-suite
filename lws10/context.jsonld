@@ -44,7 +44,7 @@
     "otherHeaders": {"@id": "lwst:otherHeaders", "@container": "@list"},
     "rel":          {"@id": "lwst:rel",    "@type": "xsd:string"},
     "href":         {"@id": "lwst:href",   "@type": "@id"},
-    "hrefTemplate": {"@id": "lwst:href",   "@type": "xsd:string"},
+    "hrefTemplate": {"@id": "lwst:hrefTemplate",   "@type": "xsd:string"},
     "mediaType":    {"@id": "lwst:mediaType", "@type": "xsd:string"},
     "headerName":   {"@id": "lwst:headerName", "@type": "xsd:string"},
     "headerValue":  {"@id": "lwst:headerValue", "@type": "xsd:string"},
