@@ -1,44 +1,45 @@
 ﻿@prefix : <http://example.com/> .
+@prefix sc: <http://www.w3.org/2011/http-statusCodes#> .
 
 [
     :name "LWS Test Suite" ;
     :tests (
-        _:deletedResourceReturns404
+        _:deletedResourceReturnsNotFound
         _:deleteReturns999IntentionallyFailing
-        _:containerGetReturns200
+        _:containerGetReturnsOK
         _:createdDataResourceReturnsPostedBody
-        _:rangeBeyondEndReturns416
+        _:rangeBeyondEndReturnsRequestedRangeNotSatisfiable
         _:newNestedContainerHasNoItems
-        _:byteRangeReturns206
+        _:byteRangeReturnsPartialContent
         _:newContainerHasNoItems
-        _:suffixByteRangeReturns206
+        _:suffixByteRangeReturnsPartialContent
         _:dataResourceHeadReturnsNoBody
         _:containerHeadReturnsNoBody
-        _:createWithForgedLinksetLinkReturns201
-        _:containerGetWithWeightedAcceptReturns200
-        _:containerGetAsJsonLdWithLwsProfileReturns200
+        _:createWithForgedLinksetLinkReturnsCreated
+        _:containerGetWithWeightedAcceptReturnsOK
+        _:containerGetAsJsonLdWithLwsProfileReturnsOK
         _:containerResponseVariesByAccept
         _:dataResourceAdvertisesByteRanges
         _:suffixByteRangeReturnsLastBytes
         _:byteRangeReturnsContentRange
         _:byteRangeReturnsRequestedBytes
-        _:createInMissingContainerReturns404
+        _:createInMissingContainerReturnsNotFound
         _:rejectedCreateLeavesContainerEmpty
         _:firstOfTwoIdenticalCreatesKeepsItsBody
         _:secondOfTwoIdenticalCreatesKeepsItsBody
-        _:createBeneathDataResourceReturns405
-        _:missingResourceReturns404
+        _:createBeneathDataResourceReturnsMethodNotAllowed
+        _:missingResourceReturnsNotFound
         _:missingResourceReturnsProblemDetails
-        _:dataResourceGetReturns200
+        _:dataResourceGetReturnsOK
         _:dataResourceGetReturnsItsMediaType
         _:dataResourceGetReturnsETag
-        _:dataResourceHeadReturns200
+        _:dataResourceHeadReturnsOK
         _:dataResourceHeadReturnsItsMediaType
         _:nestedContainerGetReturnsLwsMediaType
-        _:containerHeadReturns200
+        _:containerHeadReturnsOK
         _:containerHeadReturnsLwsMediaType
         _:storageDescriptionDefaultsToCidMediaType
-        _:storageDescriptionAsCidReturns200
+        _:storageDescriptionAsCidReturnsOK
         _:storageDescriptionAsCidReturnsCidMediaType
         _:storageDescriptionFirstContextIsCid
         _:storageDescriptionSecondContextIsLws
@@ -46,7 +47,7 @@
 ] .
 
 # Tests
-_:deletedResourceReturns404
+_:deletedResourceReturnsNotFound
     :name "Deleted resource returns 404" ;
     :steps (
         _:discoverStorageRoot
@@ -54,7 +55,7 @@ _:deletedResourceReturns404
         _:deleteResource
         _:getResourceStatus
     ) ;
-    :assertion _:404 ;
+    :assertion _:NotFound ;
 .
 
 _:deleteReturns999IntentionallyFailing
@@ -67,14 +68,14 @@ _:deleteReturns999IntentionallyFailing
     :assertion _:999 ; # Intentionally bogus
 .
 
-_:containerGetReturns200
+_:containerGetReturnsOK
     :name "Container GET returns 200" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:getContainerStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:createdDataResourceReturnsPostedBody
@@ -91,7 +92,7 @@ _:createdDataResourceReturnsPostedBody
     ] ;
 .
 
-_:rangeBeyondEndReturns416
+_:rangeBeyondEndReturnsRequestedRangeNotSatisfiable
     :name "Range beyond end returns 416" ;
     :steps (
         _:discoverStorageRoot
@@ -99,7 +100,7 @@ _:rangeBeyondEndReturns416
         _:createDigitsResource
         _:getDigitsResourceBeyondEndStatus
     ) ;
-    :assertion _:416 ;
+    :assertion _:RequestedRangeNotSatisfiable ;
 .
 
 _:newNestedContainerHasNoItems
@@ -113,7 +114,7 @@ _:newNestedContainerHasNoItems
     :assertion _:emptyItems ;
 .
 
-_:byteRangeReturns206
+_:byteRangeReturnsPartialContent
     :name "Byte range returns 206" ;
     :steps (
         _:discoverStorageRoot
@@ -121,7 +122,7 @@ _:byteRangeReturns206
         _:createDigitsResource
         _:getDigitsResourceFirstFourBytesStatus
     ) ;
-    :assertion _:206 ;
+    :assertion _:PartialContent ;
 .
 
 _:newContainerHasNoItems
@@ -134,7 +135,7 @@ _:newContainerHasNoItems
     :assertion _:emptyItems ;
 .
 
-_:suffixByteRangeReturns206
+_:suffixByteRangeReturnsPartialContent
     :name "Suffix byte range returns 206" ;
     :steps (
         _:discoverStorageRoot
@@ -142,7 +143,7 @@ _:suffixByteRangeReturns206
         _:createDigitsResource
         _:getDigitsResourceLastTwoBytesStatus
     ) ;
-    :assertion _:206 ;
+    :assertion _:PartialContent ;
 .
 
 _:dataResourceHeadReturnsNoBody
@@ -166,34 +167,34 @@ _:containerHeadReturnsNoBody
     :assertion _:emptyBody ;
 .
 
-_:createWithForgedLinksetLinkReturns201
+_:createWithForgedLinksetLinkReturnsCreated
     :name "Create with forged linkset Link returns 201" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:createResourceWithForgedLinkset
     ) ;
-    :assertion _:201 ;
+    :assertion _:Created ;
 .
 
-_:containerGetWithWeightedAcceptReturns200
+_:containerGetWithWeightedAcceptReturnsOK
     :name "Container GET with weighted Accept returns 200" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:getContainerWithWeightedAcceptStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
-_:containerGetAsJsonLdWithLwsProfileReturns200
+_:containerGetAsJsonLdWithLwsProfileReturnsOK
     :name "Container GET as JSON-LD with LWS profile returns 200" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:getContainerWithLwsProfileAcceptStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:containerResponseVariesByAccept
@@ -265,14 +266,14 @@ _:byteRangeReturnsRequestedBytes
     ] ;
 .
 
-_:createInMissingContainerReturns404
+_:createInMissingContainerReturnsNotFound
     :name "Create in missing container returns 404" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:createResourceInMissingContainer
     ) ;
-    :assertion _:404 ;
+    :assertion _:NotFound ;
 .
 
 _:rejectedCreateLeavesContainerEmpty
@@ -310,7 +311,7 @@ _:secondOfTwoIdenticalCreatesKeepsItsBody
     :assertion _:sameBytesBody ;
 .
 
-_:createBeneathDataResourceReturns405
+_:createBeneathDataResourceReturnsMethodNotAllowed
     :name "Create beneath data resource returns 405" ;
     :steps (
         _:discoverStorageRoot
@@ -318,17 +319,17 @@ _:createBeneathDataResourceReturns405
         _:createDataResource
         _:createResourceBeneathDataResource
     ) ;
-    :assertion _:405 ;
+    :assertion _:MethodNotAllowed ;
 .
 
-_:missingResourceReturns404
+_:missingResourceReturnsNotFound
     :name "Missing resource returns 404" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:getMissingResourceStatus
     ) ;
-    :assertion _:404 ;
+    :assertion _:NotFound ;
 .
 
 _:missingResourceReturnsProblemDetails
@@ -344,7 +345,7 @@ _:missingResourceReturnsProblemDetails
     ] ;
 .
 
-_:dataResourceGetReturns200
+_:dataResourceGetReturnsOK
     :name "Data resource GET returns 200" ;
     :steps (
         _:discoverStorageRoot
@@ -352,7 +353,7 @@ _:dataResourceGetReturns200
         _:createTextResource
         _:getTextResourceStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:dataResourceGetReturnsItsMediaType
@@ -380,7 +381,7 @@ _:dataResourceGetReturnsETag
     ] ;
 .
 
-_:dataResourceHeadReturns200
+_:dataResourceHeadReturnsOK
     :name "Data resource HEAD returns 200" ;
     :steps (
         _:discoverStorageRoot
@@ -388,7 +389,7 @@ _:dataResourceHeadReturns200
         _:createTextResource
         _:headTextResourceStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:dataResourceHeadReturnsItsMediaType
@@ -413,14 +414,14 @@ _:nestedContainerGetReturnsLwsMediaType
     :assertion _:lwsJsonContentType ;
 .
 
-_:containerHeadReturns200
+_:containerHeadReturnsOK
     :name "Container HEAD returns 200" ;
     :steps (
         _:discoverStorageRoot
         _:createContainer
         _:headContainerStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:containerHeadReturnsLwsMediaType
@@ -441,12 +442,12 @@ _:storageDescriptionDefaultsToCidMediaType
     :assertion _:lwsCidContentType ;
 .
 
-_:storageDescriptionAsCidReturns200
+_:storageDescriptionAsCidReturnsOK
     :name "Storage description as CID returns 200" ;
     :steps (
         _:getStorageDescriptionAsCidStatus
     ) ;
-    :assertion _:200 ;
+    :assertion _:OK ;
 .
 
 _:storageDescriptionAsCidReturnsCidMediaType
@@ -1149,37 +1150,37 @@ _:contentType
 .
 
 # Assertions
-_:200
+_:OK
     :param "status" ;
-    :value "200" ;
+    :value sc:OK ;
 .
 
-_:201
+_:Created
     :param "status" ;
-    :value "201" ;
+    :value sc:Created ;
 .
 
-_:206
+_:PartialContent
     :param "status" ;
-    :value "206" ;
+    :value sc:PartialContent ;
 .
 
-_:404
+_:NotFound
     :param "status" ;
-    :value "404" ;
+    :value sc:NotFound ;
 .
 
-_:405
+_:MethodNotAllowed
     :param "status" ;
-    :value "405" ;
+    :value sc:MethodNotAllowed ;
 .
 
-_:416
+_:RequestedRangeNotSatisfiable
     :param "status" ;
-    :value "416" ;
+    :value sc:RequestedRangeNotSatisfiable ;
 .
 
-_:999
+_:999 # no status-code IRI: 999 is intentionally bogus
     :param "status" ;
     :value "999" ;
 .
