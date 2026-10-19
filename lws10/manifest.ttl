@@ -486,14 +486,7 @@ _:discoverStorageRoot
     :name "Discover storage root" ;
     :request [
         :method "GET" ;
-        :uri [
-            :base [
-                :param "baseUri" ;
-            ] ;
-            :relative [
-                :value "/" ;
-            ] ;
-        ] ;
+        :uri _:storage ;
     ] ;
     :extractors (
         [
@@ -814,10 +807,7 @@ _:getFirstSameBytesResourceBody
     :request [
         :method "GET" ;
         :uri [
-            :base _:storageRoot ;
-            :relative [
-                :param "firstSameBytesLocation" ;
-            ] ;
+            :param "firstSameBytesLocation" ;
         ] ;
     ] ;
     :extractors (
@@ -830,10 +820,7 @@ _:getSecondSameBytesResourceBody
     :request [
         :method "GET" ;
         :uri [
-            :base _:storageRoot ;
-            :relative [
-                :param "secondSameBytesLocation" ;
-            ] ;
+            :param "secondSameBytesLocation" ;
         ] ;
     ] ;
     :extractors (
@@ -862,10 +849,7 @@ _:createResourceBeneathDataResource
     :request [
         :method "POST" ;
         :uri [
-            :base _:storageRoot ;
-            :relative [
-                :param "notAContainerLocation" ;
-            ] ;
+            :param "notAContainerLocation" ;
         ] ;
         :headers _:contentTypeTextPlain ;
         :body "should be refused" ;
@@ -1084,33 +1068,19 @@ _:newResource
 .
 
 _:container
-    :base _:storageRoot ;
-    :relative [
-        :param "containerLocation" ;
-    ] ;
+    :param "containerLocation" ;
 .
 
 _:textResource
-    :base _:storageRoot ;
-    :relative [
-        :param "textResourceLocation" ;
-    ] ;
+    :param "textResourceLocation" ;
 .
 
 _:digitsResource
-    :base _:storageRoot ;
-    :relative [
-        :param "digitsResourceLocation" ;
-    ] ;
+    :param "digitsResourceLocation" ;
 .
 
 _:storage
-    :base [
-        :param "baseUri" ;
-    ] ;
-    :relative [
-        :value "/" ;
-    ] ;
+    :param "baseUri" ;
 .
 
 # Headers
